@@ -8,19 +8,34 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # -------------------------
 # Security / Debug
 # -------------------------
-SECRET_KEY = 'django-insecure-9ncgj9^_n1@jf9#pwua$m*0jw-mchmz%-!)ppj8b388-#z(5bu'
-DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]  # โปรดใส่โดเมนจริงตอน production
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    'django-insecure-9ncgj9^_n1@jf9#pwua$m*0jw-mchmz%-!)ppj8b388-#z(5bu'
+)
+
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        'ALLOWED_HOSTS',
+        '127.0.0.1,localhost,165.101.65.87'
+    ).split(',')
+    if host.strip()
+]
+
 
 # -------------------------
-# Auth redirects (ของระบบ session ที่เปี๊ยกทำเองก็ได้)
+# Auth redirects
 # -------------------------
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/product_list/'
 LOGOUT_REDIRECT_URL = '/login/'
+
 
 # -------------------------
 # Installed apps
@@ -35,6 +50,10 @@ INSTALLED_APPS = [
     'piakweb.apps.PiakwebConfig',
 ]
 
+
+# -------------------------
+# Middleware
+# -------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -45,12 +64,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'piakweb.urls'
 
+
+# -------------------------
+# Templates
+# -------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # ถ้ามีโฟลเดอร์ templates นอก app ค่อยใส่ BASE_DIR / "templates"
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,7 +86,9 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'piakweb.wsgi.application'
+
 
 # -------------------------
 # Database (PostgreSQL schema)
@@ -70,40 +96,69 @@ WSGI_APPLICATION = 'piakweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'suenonkin',
-        'USER': 'suenonkin_user',
-        'PASSWORD': '50910402',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME', 'suenonkin'),
+        'USER': os.getenv('DB_USER', 'suenonkin_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '50910402'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
         'OPTIONS': {
-            'options': '-c search_path=suenonkin,public'
+            'options': os.getenv('DB_OPTIONS', '-c search_path=suenonkin,public')
         }
     }
 }
+
+
+# -------------------------
+# Password validation
+# -------------------------
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
 
 # -------------------------
 # Internationalization
 # -------------------------
 LANGUAGE_CODE = 'th'
 TIME_ZONE = 'Asia/Bangkok'
+USE_I18N = True
 USE_TZ = True
+
 
 # -------------------------
 # Static / Media
 # -------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "piakweb" / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
+
+# -------------------------
+# Default PK field type
+# -------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # -------------------------
 # Password reset settings
 # -------------------------
-PASSWORD_RESET_TIMEOUT = 60 * 60 * 2  # 2 ชั่วโมง
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 2
 RESET_TOKEN_TTL_HOURS = 2
+
 
 # -------------------------
 # Email
@@ -112,10 +167,16 @@ if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "IPS AUTOPARTS <noreply@ipsautoparts.local>"
 else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp.yourprovider.com"
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = "noreply@yourdomain.com"
-    EMAIL_HOST_PASSWORD = "YOUR_PASSWORD"
-    DEFAULT_FROM_EMAIL = "IPS AUTOPARTS <noreply@yourdomain.com>"
+    EMAIL_BACKEND = os.getenv(
+        "EMAIL_BACKEND",
+        "django.core.mail.backends.smtp.EmailBackend"
+    )
+    EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.yourprovider.com")
+    EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+    EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "noreply@yourdomain.com")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "YOUR_PASSWORD")
+    DEFAULT_FROM_EMAIL = os.getenv(
+        "DEFAULT_FROM_EMAIL",
+        "IPS AUTOPARTS <noreply@yourdomain.com>"
+    )
