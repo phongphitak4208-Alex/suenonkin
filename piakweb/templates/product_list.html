@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block title %}รายการสินค้า – IPS AUTOPARTS{% endblock %}
+
+{% block content %}
+<style>
+  :root{
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --primary:#2563eb;
+    --danger:#ef4444;
+    --success:#10b981;
+    --shadow:0 8px 24px rgba(0,0,0,.06);
+    --radius:14px;
+  }
+
+  .page-wrap{
+    max-width:1100px;
+    margin:20px auto;
+  }
+
+  .page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:16px;
+  }
+
+  .page-header h1{
+    font-size:28px;
+    margin:0;
+    color:var(--text);
+  }
+
+  .page-header p{
+    margin:4px 0 0;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .btn-main{
+    background:var(--success);
+    color:#fff;
+    border-radius:10px;
+    padding:10px 16px;
+    font-weight:700;
+    text-decoration:none;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+
+  .toolbar{
+    padding:14px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+
+  .toolbar input{
+    max-width:320px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+  }
+
+  th, td{
+    padding:12px 14px;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+
+  th{
+    background:#f9fafb;
+    color:var(--muted);
+    font-size:13px;
+    text-align:left;
+  }
+
+  tr:hover td{
+    background:#fbfdff;
+  }
+
+  .num{ text-align:right; }
+  .center{ text-align:center; }
+
+  .btn-mini{
+    padding:6px 12px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:700;
+    text-decoration:none;
+  }
+
+  .btn-edit{
+    background:#eef2ff;
+    color:#3730a3;
+    border:1px solid #c7d2fe;
+  }
+
+  .btn-del{
+    background:#fff1f2;
+    color:#9f1239;
+    border:1px solid #fecdd3;
+  }
+
+  .empty{
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
+  }
+
+  .footer-note{
+    padding:12px 14px;
+    font-size:13px;
+    color:var(--muted);
+    background:#fff;
+  }
+</style>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>รายการสินค้า</h1>
+      <p>จัดการสินค้า เพิ่ม / แก้ไข / ลบ จากหน้านี้</p>
+    </div>
+
+    <a href="{% url 'add_product' %}" class="btn-main">
+      + เพิ่มสินค้าใหม่
+    </a>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+
+    <!-- Toolbar -->
+    <form method="get" class="toolbar">
+      <strong>ค้นหา</strong>
+      <input type="text"
+             name="q"
+             class="form-control"
+             placeholder="รหัสสินค้า หรือ ชื่อสินค้า"
+             value="{{ q|default_if_none:'' }}">
+      <button class="btn btn-primary">ค้นหา</button>
+
+      {% if q %}
+        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">
+          ล้าง
+        </a>
+      {% endif %}
+    </form>
+
+    <!-- Table -->
+    <div style="overflow:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>รหัสสินค้า</th>
+            <th>ชื่อสินค้า</th>
+            <th class="num">ราคา</th>
+            <th class="num">ราคาพิเศษ</th>
+            <th class="num">ราคาทุน</th>
+            <th class="num">สต็อก</th>
+            <th class="center">จัดการ</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for p in products %}
+          <tr>
+            <td><strong>{{ p.product_code }}</strong></td>
+            <td>{{ p.product_name }}</td>
+            <td class="num">{{ p.SalePrice }}</td>
+            <td class="num">{{ p.saleprice1|default_if_none:"-" }}</td>
+            <td class="num">{{ p.lastbyprice|default_if_none:"-" }}</td>
+            <td class="num">{{ p.stock }}</td>
+            <td class="center">
+              <a href="{% url 'edit_product' p.product_code %}" class="btn-mini btn-edit">แก้ไข</a>
+              <a href="{% url 'delete_product' p.product_code %}"
+                 class="btn-mini btn-del"
+                 onclick="return confirm('ต้องการลบสินค้านี้หรือไม่?');">
+                ลบ
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="7" class="empty">ยังไม่มีสินค้าในระบบ</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-note">
+      ทั้งหมด: <strong>{{ products|length }}</strong> รายการ
+    </div>
+
+  </div>
+</div>
+{% endblock %}

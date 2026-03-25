@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>แก้ไขสินค้า</title>
+</head>
+<body>
+    <h1>แก้ไขสินค้า</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <label>รหัสสินค้า: </label>
+            <!-- แสดงอย่างเดียว ไม่ให้แก้ (รหัสเป็น key) -->
+            <input type="text" name="product_code" value="{{ product.product_code }}" readonly>
+        </p>
+
+        <p>
+            <label>ชื่อสินค้า: </label>
+            <input type="text" name="product_name" value="{{ product.product_name }}">
+        </p>
+
+        <p>
+            <label>ราคาขาย: </label>
+            <input type="number" name="SalePrice" step="0.01" value="{{ product.SalePrice }}">
+        </p>
+       
+         <p>
+            <label>ราคาพิเศษ: </label>
+            <input type="number" name="saleprice1" step="0.01" value="{{ product.saleprice1 }}">
+        </p>
+         <p>
+            <label>ราคาทุน: </label>
+            <input type="number" name="lastbyprice" step="0.01" value="{{ product.lastbyprice }}">
+        </p>
+        <p>
+            <label>สต็อกคงเหลือ: </label>
+            <input type="number" name="stock" value="{{ product.stock }}">
+        </p>
+
+        <button type="submit">บันทึกการแก้ไข</button>
+        <a href="{% url 'product_list' %}">กลับไปหน้ารายการสินค้า</a>
+    </form>
+</body>
+</html>

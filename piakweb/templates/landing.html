@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}ยินดีต้อนรับ | IPS AUTOPARTS SaaS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="p-4 p-lg-5 bg-white border rounded-4 shadow-sm">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h1 class="fw-bold mb-2">IPS AUTOPARTS SaaS</h1>
+          <p class="text-muted mb-4">
+            ระบบบริหารร้านอะไหล่ยนต์: สินค้า • ลูกค้า • ซัพพลายเออร์ • หน้าขาย • รายงาน
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary px-4" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+            <a class="btn btn-outline-secondary px-4" href="{% url 'register' %}">สมัครใช้งานฟรี</a>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="p-3 border rounded-3">
+                <div class="fw-bold">📦 จัดการสินค้า</div>
+                <div class="text-muted small">ค้นหา เพิ่ม แก้ไข ลบ และแยกตามร้าน (Tenant)</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 border rounded-3">
+                <div class="fw-bold">🧾 หน้าขาย + รายงาน</div>
+                <div class="text-muted small">เตรียมต่อยอดบิลขาย กำไร และสรุปยอด</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <!-- “พื้นที่ login” แบบย่อ (ไม่ต้องออกไปหน้า login ก็ได้) -->
+          <div class="p-4 bg-light border rounded-4">
+            <h5 class="fw-bold mb-3">เข้าสู่ระบบ</h5>
+            <form method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label class="form-label">อีเมล</label>
+                <input class="form-control" type="email" name="email" placeholder="name@email.com" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">รหัสผ่าน</label>
+                <input class="form-control" type="password" name="password" placeholder="••••••••" required>
+              </div>
+              <button class="btn btn-primary w-100" type="submit">เข้าสู่ระบบ</button>
+            </form>
+            <div class="text-center mt-3 small">
+              ยังไม่มีบัญชี? <a href="{% url 'register' %}">สมัครใช้งาน</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!-- piakweb/templates/add_product.html -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>เพิ่มสินค้าใหม่</title>
+</head>
+<body>
+    <h1>เพิ่มสินค้าใหม่</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <table border="0" cellpadding="5">
+            {{ form.as_table }}
+        </table>
+
+        <p>
+            <button type="submit">บันทึกสินค้า</button>
+            <a href="{% url 'product_list' %}">กลับไปหน้ารายการสินค้า</a>
+        </p>
+    </form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ยืนยันการลบสินค้า</title>
+</head>
+<body>
+    <h2>ต้องการลบสินค้านี้หรือไม่?</h2>
+
+    <p><strong>รหัสสินค้า:</strong> {{ product.product_code }}</p>
+    <p><strong>ชื่อสินค้า:</strong> {{ product.product_name }}</p>
+    <p><strong>ราคา:</strong> {{ product.SalePrice }} บาท</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">ยืนยันลบ</button>
+        <a href="{% url 'product_list' %}">ยกเลิก</a>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<h2>ชำระค่าบริการรายเดือน</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>จำนวนเงินที่โอน (บาท):</label>
+    <input type="number" step="0.01" name="amount" required>
+
+    <label>แนบสลิปโอนเงิน:</label>
+    <input type="file" name="slip_image" accept="image/*">
+
+    <button type="submit">ยืนยันการชำระเงิน</button>
+</form>

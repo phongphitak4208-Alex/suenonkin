@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}หน้าแรก | IPS AUTOPARTS{% endblock %}
+
+{% block content %}
+
+<div class="text-center mb-3">
+  <h2 class="fw-bold">ระบบบริหารงานร้านอะไหล่ยนต์ 1.0 </h2>
+</div>
+
+<div class="mb-4">
+  <div class="bg-white border rounded-4 shadow-sm overflow-hidden">
+    <img src="{% static 'images/ips_dashboard_bg.png' %}"
+         class="w-100"
+         style="height:420px; object-fit:contain; background:#f6f7fb;">
+  </div>
+</div>
+
+{% endblock %}

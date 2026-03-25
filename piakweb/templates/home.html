@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}หน้าแรก  ระบบบริหารงานร้านอะไหล่ยนต์{% endblock %}
+
+{% block content %}
+
+  <h1>ระบบร้านอะไหล่ยนต์</h1>
+  <p>ยินดีต้อนรับ</p>
+<img src="{% static 'images/shop.png' %}" alt="IPS AUTOPARTS 1.0" width="500">
+  <ul>
+      <li>📦 เมนูจัดการสินค้าอยู่ที่แถบด้านบนแล้ว (เมนู “สินค้า”)</li>
+      <li>อนาคตจะมีเมนูลูกค้า / ซัพพลายเออร์ / หน้าขาย / รายงาน เพิ่มเข้ามา</li>
+  </ul>
+{% endblock %}

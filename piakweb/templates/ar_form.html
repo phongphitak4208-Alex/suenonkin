@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} – IPS AUTOPARTS{% endblock %}
+
+{% block content %}
+<div class="container-lg" style="max-width: 900px;">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white">
+      <h4 class="mb-0">{{ title }}</h4>
+      <small class="text-muted">ข้อมูลลูกค้า (Accounts Receivable)</small>
+    </div>
+
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+
+        <!-- ข้อมูลหลัก -->
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">รหัสลูกค้า</label>
+            {{ form.ar_code }}
+          </div>
+          <div class="col-md-8">
+            <label class="form-label">ชื่อลูกค้า / ชื่อร้าน</label>
+            {{ form.ar_name }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">ผู้ติดต่อ</label>
+            {{ form.contact_name }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">เบอร์โทร</label>
+            {{ form.phone }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Line ID</label>
+            {{ form.line_id }}
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- ที่อยู่ -->
+        <h6 class="fw-bold">ที่อยู่</h6>
+        <div class="row g-3">
+          <div class="col-12">
+            {{ form.address1 }}
+          </div>
+          <div class="col-12">
+            {{ form.address2 }}
+          </div>
+          <div class="col-md-4">
+            {{ form.subdistrict }}
+          </div>
+          <div class="col-md-4">
+            {{ form.district }}
+          </div>
+          <div class="col-md-4">
+            {{ form.province }}
+          </div>
+          <div class="col-md-3">
+            {{ form.zipcode }}
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- ภาษี / เครดิต -->
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">เลขผู้เสียภาษี</label>
+            {{ form.tax_id }}
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">สาขา</label>
+            {{ form.branch_no }}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">เครดิต (วัน)</label>
+            {{ form.credit_days }}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">วงเงิน</label>
+            {{ form.credit_limit }}
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- อื่น ๆ -->
+        <div class="row g-3 align-items-center">
+          <div class="col-md-8">
+            {{ form.remark }}
+          </div>
+          <div class="col-md-4 form-check mt-4">
+            {{ form.is_active }}
+            <label class="form-check-label">เปิดใช้งาน</label>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'ar_list' %}" class="btn btn-outline-secondary">
+            ← กลับรายการลูกค้า
+          </a>
+
+          <button type="submit" class="btn btn-success px-4">
+            💾 บันทึกข้อมูล
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

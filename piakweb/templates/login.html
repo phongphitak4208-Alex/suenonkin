@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}เข้าสู่ระบบ | IPS AUTOPARTS SaaS{% endblock %}
+
+{% block extra_head %}
+<style>
+  body{
+    font-family: 'Sarabun', sans-serif;
+    background: #f5f6fa;
+  }
+  .login-wrap{
+    min-height: calc(100vh - 80px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .login-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .login-container h2 {
+    margin-bottom: 20px;
+    color: #2f3640;
+  }
+  .login-container input[type="text"],
+  .login-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #dcdde1;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0984e3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  .login-container button:hover { background-color: #74b9ff; }
+  .register-link { margin-top: 15px; display:block; }
+  .register-link a { color:#6c5ce7; text-decoration:none; font-weight:bold; }
+  .register-link a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-wrap">
+  <div class="login-container">
+
+    <h2>เข้าสู่ระบบ IPS AUTOPARTS</h2>
+
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+
+      <input type="text" name="email" placeholder="อีเมล"
+             value="{{ email|default:'' }}" required>
+
+      <input type="password" name="password" placeholder="รหัสผ่าน" required>
+
+      <button type="submit">เข้าสู่ระบบ</button>
+    </form>
+
+    <div class="register-link">
+      ยังไม่มีบัญชี? <a href="{% url 'register' %}">สมัครใช้งาน</a>
+    </div>
+    <a href="{% url 'forgot_password' %}">ลืมรหัสผ่าน?</a>
+
+  </div>
+</div>
+{% endblock %}
